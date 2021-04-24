@@ -1,7 +1,12 @@
+<<<<<<< HEAD
 #Meditation App
 
 ![demo](./tZGgrbMgVq.gif)
+=======
+# Meditation App
+>>>>>>> d4a4aee18abb16b2d69dabf7bcf35e3b4d38b2b7
 
+## [live site](https://meditate42app.netlify.app/)
 
 
 ---
