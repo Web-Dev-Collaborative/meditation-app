@@ -1,5 +1,3 @@
-
-
 const playBtn = document.querySelector( "#switch-audio" );
 const mixUp = document.querySelector( "#random-audio" );
 let audio = new Audio( "./sounds/beach.mp3" );
@@ -88,8 +86,8 @@ let video = document.getElementById( "stage-video" );
 let config = document.getElementById( "config-btn" );
 let colorThemes = document.getElementsByClassName( "colorTheme" );
 let poses = document.getElementsByClassName( "pose" );
-document.getElementById( "poses" ).style.display = "none";
-
+document.getElementById( "poses" )
+  .style.display = "none";
 playBtn.addEventListener( "click", function () {
   if ( playBtn.classList.contains( "muted" ) ) {
     playBtn.classList.remove( "muted" );
@@ -102,7 +100,7 @@ playBtn.addEventListener( "click", function () {
     current.play();
   } else {
     playBtn.classList.add( "muted" );
-    var children = document.querySelectorAll( "#switch-audio .fa-volume-mute" );
+    let children = document.querySelectorAll( "#switch-audio .fa-volume-mute" );
     document.querySelectorAll( "#switch-audio .fa-volume-up" )[ 0 ].style.display =
       "none";
     document.querySelectorAll(
@@ -111,7 +109,6 @@ playBtn.addEventListener( "click", function () {
     current.pause();
   }
 } );
-
 mixUp.addEventListener( "click", function () {
   if ( playBtn.classList.contains( "muted" ) ) {
     playBtn.classList.remove( "muted" );
@@ -128,96 +125,92 @@ mixUp.addEventListener( "click", function () {
   video.src = combos[ randomIndex ].video;
   video.play();
 } );
-document.getElementById( "toggle-video" ).addEventListener( "click", function () {
-  video.classList.toggle( "none" );
-  if ( video.classList.contains( "none" ) ) {
-    document
-      .querySelectorAll( "#toggle-video .fa-video" )[ 0 ]
-      .classList.add( "none" );
-    document
-      .querySelectorAll( "#toggle-video .fa-video-slash" )[ 0 ]
-      .classList.remove( "none" );
-  } else {
-    document
-      .querySelectorAll( "#toggle-video .fa-video" )[ 0 ]
-      .classList.remove( "none" );
-    document
-      .querySelectorAll( "#toggle-video .fa-video-slash" )[ 0 ]
-      .classList.add( "none" );
-  }
-} );
-
+document.getElementById( "toggle-video" )
+  .addEventListener( "click", function () {
+    video.classList.toggle( "none" );
+    if ( video.classList.contains( "none" ) ) {
+      document
+        .querySelectorAll( "#toggle-video .fa-video" )[ 0 ]
+        .classList.add( "none" );
+      document
+        .querySelectorAll( "#toggle-video .fa-video-slash" )[ 0 ]
+        .classList.remove( "none" );
+    } else {
+      document
+        .querySelectorAll( "#toggle-video .fa-video" )[ 0 ]
+        .classList.remove( "none" );
+      document
+        .querySelectorAll( "#toggle-video .fa-video-slash" )[ 0 ]
+        .classList.add( "none" );
+    }
+  } );
 current.addEventListener( "ended", function () {
   current.currentTime = 0;
   current.load();
   current.play();
 } );
-
 config.addEventListener( "click", function () {
-  document.getElementById( "config-md" ).classList.toggle( "open" );
+  document.getElementById( "config-md" )
+    .classList.toggle( "open" );
 } );
-
-document.getElementById( "config-md" ).addEventListener( "click", function ( eve ) {
-  if ( eve.target.classList.contains( "modal-wrapper" ) ) {
-    document.getElementById( "config-md" ).classList.toggle( "open" );
-  } else {
-    return;
-  }
-} );
-for ( let i = 0; i < colorThemes.length; i++ ) {
-  colorThemes[ i ].addEventListener( "click", function ( event ) {
+document.getElementById( "config-md" )
+  .addEventListener( "click", function ( eve ) {
+    if ( eve.target.classList.contains( "modal-wrapper" ) ) {
+      document.getElementById( "config-md" )
+        .classList.toggle( "open" );
+    } else {
+      return;
+    }
+  } );
+colorThemes.forEach( colorTheme => {
+  colorTheme.addEventListener( "click", function ( event ) {
     Array.prototype.forEach.call( colorThemes, function ( el ) {
       el.classList.remove( "active" );
     } );
     let theme = event.target.getAttribute( "data-theme" );
-    var f = themes[ parseInt( theme ) ].first;
-    var s = themes[ parseInt( theme ) ].sec;
+    let first = themes[ parseInt( theme ) ].first;
+    let second = themes[ parseInt( theme ) ].sec;
     let circles = document.getElementsByClassName( "circle" );
-    for ( let index = 0; index < circles.length; index += 2 ) {
-      circles[ index ].style.background = f;
-    }
-    for ( let indexs = 1; indexs < circles.length; indexs += 2 ) {
-      circles[ indexs ].style.background = s;
+    circles.forEach( circle => {
+      circle.style.background = first;
+    } );
+    for ( let indexs = 1; !( indexs >= circles.length ); indexs += 2 ) {
+      circles[ indexs ].style.background = second;
     }
     event.target.classList.add( "active" );
   } );
-}
-
-document.getElementById( "OpenImgUpload" ).addEventListener( "click", function () {
-  document.getElementById( "imgupload" ).click();
 } );
-
-var openFile = function ( file ) {
-  var input = file.target;
-
-  var reader = new FileReader();
-  reader.onload = function () {
-    var dataURL = reader.result;
-    var output = document.getElementById( "OpenImgUpload" );
-    var mainOutput = document.getElementById( "mainBg" );
+document.getElementById( "OpenImgUpload" )
+  .addEventListener( "click", function () {
+    document.getElementById( "imgupload" )
+      .click();
+  } );
+let openFile = function ( file ) {
+  let input = file.target;
+  let fileReader = new FileReader();
+  fileReader.onload = function () {
+    let dataURL = fileReader.result;
+    let output = document.getElementById( "OpenImgUpload" );
+    let mainBackground = document.getElementById( "mainBg" );
     output.src = dataURL;
-    mainOutput.src = dataURL;
+    mainBackground.src = dataURL;
   };
-  reader.readAsDataURL( input.files[ 0 ] );
+  fileReader.readAsDataURL( input.files[ 0 ] );
 };
-
-let intervalIndex = 0;
-
+let intervalIdx = 0;
 setInterval( function () {
   Array.prototype.forEach.call( poses, function ( el ) {
-    el.classList.remove( "current" );
+    el.classList.remove( `current` );
   } );
-  poses[ intervalIndex ].classList.add( "current" );
-  intervalIndex++;
-  if ( intervalIndex >= poses.length ) {
-    intervalIndex = 0;
+  poses[ intervalIdx ].classList.add( `current` );
+  intervalIdx++;
+  if ( !( intervalIdx < poses.length ) ) {
+    intervalIdx = 0;
   }
 }, 10000 );
-
-document.getElementById( "toggly" ).addEventListener( "click", function () {
-  if ( document.getElementById( "toggly" ).checked ) {
-    document.getElementById( "poses" ).style.display = "block";
-  } else {
-    document.getElementById( "poses" ).style.display = "none";
-  }
-} );
+document.getElementById( `toggly` )
+  .addEventListener( `click`, function () {
+    document.getElementById( "poses" )
+      .style.display = document.getElementById( "toggly" )
+      .checked ? "block" : "none";
+  } );
